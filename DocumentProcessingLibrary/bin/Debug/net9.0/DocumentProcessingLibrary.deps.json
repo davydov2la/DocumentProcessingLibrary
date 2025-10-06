@@ -1,0 +1,141 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "DocumentProcessingLibrary/1.0.0": {
+        "dependencies": {
+          "DocumentFormat.OpenXml": "3.3.0",
+          "Microsoft.Office.Interop.Word": "15.0.4797.1004",
+          "MicrosoftOfficeCore": "15.0.0",
+          "SolidWorks.Interop.sldworks": "32.1.0",
+          "SolidWorks.Interop.swconst": "32.1.0"
+        },
+        "runtime": {
+          "DocumentProcessingLibrary.dll": {}
+        }
+      },
+      "DocumentFormat.OpenXml/3.3.0": {
+        "dependencies": {
+          "DocumentFormat.OpenXml.Framework": "3.3.0"
+        },
+        "runtime": {
+          "lib/net8.0/DocumentFormat.OpenXml.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.0.0"
+          }
+        }
+      },
+      "DocumentFormat.OpenXml.Framework/3.3.0": {
+        "dependencies": {
+          "System.IO.Packaging": "8.0.1"
+        },
+        "runtime": {
+          "lib/net8.0/DocumentFormat.OpenXml.Framework.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.0.0"
+          }
+        }
+      },
+      "Microsoft.Office.Interop.Word/15.0.4797.1004": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Office.Interop.Word.dll": {
+            "assemblyVersion": "15.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "MicrosoftOfficeCore/15.0.0": {
+        "runtime": {
+          "lib/net35/Office.dll": {
+            "assemblyVersion": "15.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "SolidWorks.Interop.sldworks/32.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/SolidWorks.Interop.sldworks.dll": {
+            "assemblyVersion": "32.1.0.123",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "SolidWorks.Interop.swconst/32.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/SolidWorks.Interop.swconst.dll": {
+            "assemblyVersion": "32.1.0.123",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "System.IO.Packaging/8.0.1": {
+        "runtime": {
+          "lib/net8.0/System.IO.Packaging.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.1024.46610"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DocumentProcessingLibrary/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DocumentFormat.OpenXml/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JogRPJNiE6kKvbuCqVRX691pPWeGMqdQgjrUwRYkdpfkMmtElfqAgcRR73geYj7OtBeEpstldZXXzJw27LUI9w==",
+      "path": "documentformat.openxml/3.3.0",
+      "hashPath": "documentformat.openxml.3.3.0.nupkg.sha512"
+    },
+    "DocumentFormat.OpenXml.Framework/3.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-R5CLzEoeyr7XDB7g3NTxRobcU19agaxVAhGZm+fZUShJGiU4bw8oUgnA2BNFepigJckfFMayOBMAbV3kDXNInA==",
+      "path": "documentformat.openxml.framework/3.3.0",
+      "hashPath": "documentformat.openxml.framework.3.3.0.nupkg.sha512"
+    },
+    "Microsoft.Office.Interop.Word/15.0.4797.1004": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lavTOrMGK/o/t3+gGr7JuVrL8XDdnS0DwPLcYv/StOiysXO4L0C36IXTVtEJo1Mh9Aoxo9a8dgGcPi+faTlv0g==",
+      "path": "microsoft.office.interop.word/15.0.4797.1004",
+      "hashPath": "microsoft.office.interop.word.15.0.4797.1004.nupkg.sha512"
+    },
+    "MicrosoftOfficeCore/15.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/KgYw8uvv0Ut8FPvyEa1XJ/TrLSRgvTv3JgC2IT0/8NwoICzbEJWfmfwsE6Dwi8WH0jVkTEO7zRvGvaKqUOhqQ==",
+      "path": "microsoftofficecore/15.0.0",
+      "hashPath": "microsoftofficecore.15.0.0.nupkg.sha512"
+    },
+    "SolidWorks.Interop.sldworks/32.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lq3QmJwBbVE3K+pN5JFSGn1Bj7J1vUyTr4TtT23UAOtd8MXLElZROm9Iee2N8SP8AXsLTpXdBXGs7xYeJT53qw==",
+      "path": "solidworks.interop.sldworks/32.1.0",
+      "hashPath": "solidworks.interop.sldworks.32.1.0.nupkg.sha512"
+    },
+    "SolidWorks.Interop.swconst/32.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-mOLeWDKf0hX7iSNmdc22FmwoCaqH3KuNhODNGdWuT36KB/maGzQdfU+r9YS97n3mMIdWN3qaLBQ4eJG8z77rMw==",
+      "path": "solidworks.interop.swconst/32.1.0",
+      "hashPath": "solidworks.interop.swconst.32.1.0.nupkg.sha512"
+    },
+    "System.IO.Packaging/8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KYkIOAvPexQOLDxPO2g0BVoWInnQhPpkFzRqvNrNrMhVT6kqhVr0zEb6KCHlptLFukxnZrjuMVAnxK7pOGUYrw==",
+      "path": "system.io.packaging/8.0.1",
+      "hashPath": "system.io.packaging.8.0.1.nupkg.sha512"
+    }
+  }
+}

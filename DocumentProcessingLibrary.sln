@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentProcessingLibrary", "DocumentProcessingLibrary\DocumentProcessingLibrary.csproj", "{37F80358-6316-4053-A180-5684CC1529DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DocumentProcessingConsole", "DocumentProcessingConsole\DocumentProcessingConsole.csproj", "{FEDE455E-855A-4A72-BDA8-8CBAE61E1950}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{37F80358-6316-4053-A180-5684CC1529DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37F80358-6316-4053-A180-5684CC1529DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37F80358-6316-4053-A180-5684CC1529DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37F80358-6316-4053-A180-5684CC1529DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEDE455E-855A-4A72-BDA8-8CBAE61E1950}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEDE455E-855A-4A72-BDA8-8CBAE61E1950}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEDE455E-855A-4A72-BDA8-8CBAE61E1950}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEDE455E-855A-4A72-BDA8-8CBAE61E1950}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

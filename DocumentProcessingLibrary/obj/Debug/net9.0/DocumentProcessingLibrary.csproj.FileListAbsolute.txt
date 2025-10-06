@@ -1,0 +1,12 @@
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/bin/Debug/net9.0/DocumentProcessingLibrary.deps.json
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/bin/Debug/net9.0/DocumentProcessingLibrary.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/bin/Debug/net9.0/DocumentProcessingLibrary.pdb
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.csproj.AssemblyReference.cache
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.GeneratedMSBuildEditorConfig.editorconfig
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.AssemblyInfoInputs.cache
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.AssemblyInfo.cs
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.csproj.CoreCompileInputs.cache
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/refint/DocumentProcessingLibrary.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.pdb
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/ref/DocumentProcessingLibrary.dll

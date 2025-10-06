@@ -1,0 +1,29 @@
+{
+  "version": 2,
+  "dgSpecHash": "+XeEb9DQBbE=",
+  "success": true,
+  "projectFilePath": "/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/DocumentProcessingConsole.csproj",
+  "expectedPackageFiles": [
+    "/Users/paveldavydov/.nuget/packages/documentformat.openxml/3.3.0/documentformat.openxml.3.3.0.nupkg.sha512",
+    "/Users/paveldavydov/.nuget/packages/documentformat.openxml.framework/3.3.0/documentformat.openxml.framework.3.3.0.nupkg.sha512",
+    "/Users/paveldavydov/.nuget/packages/microsoft.office.interop.word/15.0.4797.1004/microsoft.office.interop.word.15.0.4797.1004.nupkg.sha512",
+    "/Users/paveldavydov/.nuget/packages/microsoftofficecore/15.0.0/microsoftofficecore.15.0.0.nupkg.sha512",
+    "/Users/paveldavydov/.nuget/packages/solidworks.interop.sldworks/32.1.0/solidworks.interop.sldworks.32.1.0.nupkg.sha512",
+    "/Users/paveldavydov/.nuget/packages/solidworks.interop.swconst/32.1.0/solidworks.interop.swconst.32.1.0.nupkg.sha512",
+    "/Users/paveldavydov/.nuget/packages/system.io.packaging/8.0.1/system.io.packaging.8.0.1.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'MicrosoftOfficeCore 15.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net9.0'. This package may not be fully compatible with your project.",
+      "projectPath": "/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/DocumentProcessingConsole.csproj",
+      "warningLevel": 1,
+      "filePath": "/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/DocumentProcessingConsole.csproj",
+      "libraryId": "MicrosoftOfficeCore",
+      "targetGraphs": [
+        "net9.0"
+      ]
+    }
+  ]
+}
