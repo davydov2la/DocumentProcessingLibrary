@@ -15,6 +15,7 @@ public class WordOpenXmlDocumentProcessor : ITwoPassDocumentProcessor
     private bool _disposed;
     public string ProcessorName => "WordOpenXmlDocumentProcessor";
     public IEnumerable<string> SupportedExtensions => [".docx", ".docm"];
+    
     public bool CanProcess(string filePath)
     {
         if (string.IsNullOrEmpty(filePath))
@@ -22,6 +23,7 @@ public class WordOpenXmlDocumentProcessor : ITwoPassDocumentProcessor
         var extension = Path.GetExtension(filePath)?.ToLowerInvariant();
         return extension is ".docx" or ".docm";
     }
+    
     public ProcessingResult Process(DocumentProcessingRequest request)
     {
         if (request == null)
@@ -30,39 +32,47 @@ public class WordOpenXmlDocumentProcessor : ITwoPassDocumentProcessor
             return ProcessingResult.Failed($"Файл не найден: {request.InputFilePath}");
         if (!CanProcess(request.InputFilePath))
             return ProcessingResult.Failed($"Неподдерживаемый формат файла: {request.InputFilePath}");
+
         var tempFilePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + Path.GetExtension(request.InputFilePath));
         
         try
         {
             File.Copy(request.InputFilePath, tempFilePath, true);
             ProcessingResult result;
+            
             using (var doc = WordprocessingDocument.Open(tempFilePath, true))
             {
                 if (doc == null)
                     return ProcessingResult.Failed($"Не удалось открыть документ: {request.InputFilePath}");
+
                 var context = new WordOpenXmlDocumentContext
                 {
-                    Document = doc, FilePath = tempFilePath
+                    Document = doc, 
+                    FilePath = tempFilePath
                 };
+
                 var contentHandler = new WordOpenXmlContentHandler();
-                // var shapesHandler = new WordOpenXmlShapesHandler();
                 var headersFootersHandler = new WordOpenXmlHeadersFootersHandler();
                 var propertiesHandler = new WordOpenXmlPropertiesHandler();
+
                 contentHandler
-                    // .SetNext(shapesHandler)
                     .SetNext(headersFootersHandler)
                     .SetNext(propertiesHandler);
+
                 result = contentHandler.Handle(context, request.Configuration);
                 doc.MainDocumentPart?.Document?.Save();
             }
+
             if (request.ExportOptions.SaveModified)
             {
-                File.Copy(tempFilePath, request.InputFilePath, true);
+                SaveProcessedDocument(request, tempFilePath);
             }
+
             if (request.ExportOptions.ExportToPdf)
             {
                 result.Warnings.Add("OpenXML процессор не поддерживает конвертацию в PDF. Используйте Interop процессор для экспорта в PDF.");
             }
+
             return result;
         }
         catch (Exception ex)
@@ -79,6 +89,7 @@ public class WordOpenXmlDocumentProcessor : ITwoPassDocumentProcessor
             catch { }
         }
     }
+    
     /// <summary>
     /// Двухпроходная обработка для OpenXML
     /// </summary>
@@ -88,6 +99,7 @@ public class WordOpenXmlDocumentProcessor : ITwoPassDocumentProcessor
             throw new ArgumentNullException(nameof(request));
         if (!File.Exists(request.InputFilePath))
             return ProcessingResult.Failed($"Файл не найден: {request.InputFilePath}");
+
         var tempFilePath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString() + Path.GetExtension(request.InputFilePath));
         
         try
@@ -99,21 +111,25 @@ public class WordOpenXmlDocumentProcessor : ITwoPassDocumentProcessor
             {
                 if (doc == null)
                     return ProcessingResult.Failed($"Не удалось открыть документ: {request.InputFilePath}");
+
                 var context = new WordOpenXmlDocumentContext
                 {
-                    Document = doc, FilePath = tempFilePath
+                    Document = doc, 
+                    FilePath = tempFilePath
                 };
+
                 var contentHandler = new WordOpenXmlContentHandler();
-                // var shapesHandler = new WordOpenXmlShapesHandler();
                 var headersFootersHandler = new WordOpenXmlHeadersFootersHandler();
                 var propertiesHandler = new WordOpenXmlPropertiesHandler();
+
                 contentHandler
-                    // .SetNext(shapesHandler)
                     .SetNext(headersFootersHandler)
                     .SetNext(propertiesHandler);
+
                 firstPassResult = contentHandler.Handle(context, twoPassConfig.FirstPassConfiguration);
                 doc.MainDocumentPart?.Document?.Save();
             }
+
             var extractedCodes = twoPassConfig.CodeExtractionStrategy?.GetExtractedCodes() ?? new List<string>();
             if (extractedCodes.Count > 0)
             {
@@ -121,32 +137,40 @@ public class WordOpenXmlDocumentProcessor : ITwoPassDocumentProcessor
                 {
                     var codeSearchStrategy = new OrganizationCodeSearchStrategy(extractedCodes);
                     twoPassConfig.SecondPassConfiguration.SearchStrategies.Add(codeSearchStrategy);
+
                     var context = new WordOpenXmlDocumentContext
                     {
-                        Document = doc, FilePath = tempFilePath
+                        Document = doc, 
+                        FilePath = tempFilePath
                     };
+
                     var secondPassContentHandler = new WordOpenXmlContentHandler();
-                    // var secondPassShapesHandler = new WordOpenXmlShapesHandler();
                     var secondPassHeadersFootersHandler = new WordOpenXmlHeadersFootersHandler();
+
                     secondPassContentHandler
-                        // .SetNext(secondPassShapesHandler)
                         .SetNext(secondPassHeadersFootersHandler);
+
                     var secondPassResult = secondPassContentHandler.Handle(context, twoPassConfig.SecondPassConfiguration);
+                    
                     firstPassResult.MatchesFound += secondPassResult.MatchesFound;
                     firstPassResult.MatchesProcessed += secondPassResult.MatchesProcessed;
                     firstPassResult.Warnings.AddRange(secondPassResult.Warnings);
                     firstPassResult.Metadata["CodesRemoved"] = extractedCodes.Count;
+                    
                     doc.MainDocumentPart?.Document?.Save();
                 }
             }
+
             if (request.ExportOptions.SaveModified)
             {
-                File.Copy(tempFilePath, request.InputFilePath, true);
+                SaveProcessedDocument(request, tempFilePath);
             }
+
             if (request.ExportOptions.ExportToPdf)
             {
                 firstPassResult.Warnings.Add("OpenXML процессор не поддерживает конвертацию в PDF.");
             }
+
             return firstPassResult;
         }
         catch (Exception ex)
@@ -163,17 +187,40 @@ public class WordOpenXmlDocumentProcessor : ITwoPassDocumentProcessor
             catch { }
         }
     }
+
+    /// <summary>
+    /// Сохраняет обработанный документ с учетом флага PreserveOriginal
+    /// </summary>
+    private void SaveProcessedDocument(DocumentProcessingRequest request, string tempFilePath)
+    {
+        if (request.PreserveOriginal)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(request.InputFilePath);
+            var extension = Path.GetExtension(request.InputFilePath);
+            var processedFileName = $"{fileName}_processed{extension}";
+            var outputPath = Path.Combine(request.OutputDirectory, processedFileName);
+
+            File.Copy(tempFilePath, outputPath, true);
+        }
+        else
+        {
+            File.Copy(tempFilePath, request.InputFilePath, true);
+        }
+    }
+
     public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
     }
+
     protected virtual void Dispose(bool disposing)
     {
         if (_disposed)
             return;
         _disposed = true;
     }
+
     ~WordOpenXmlDocumentProcessor()
     {
         Dispose(false);

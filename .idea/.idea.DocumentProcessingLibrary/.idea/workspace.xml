@@ -7,7 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4dbf4400-cd0c-49c0-a860-6681205b2041" name="Changes" comment="" />
+    <list default="true" id="4dbf4400-cd0c-49c0-a860-6681205b2041" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DocumentProcessingLibrary/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DocumentProcessingLibrary/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/WordOpenXmlDocumentProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/WordOpenXmlDocumentProcessor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/WordDocumentProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/WordDocumentProcessor.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,6 +23,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "davydov2la"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/davydov2la/DocumentProcessingLibrary.git",
+    "accountId": "f6ce30ed-b52a-4bad-9d59-7fcac82d2077"
+  }
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/DocumentProcessingConsole/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Core/Interfaces/ITextReplacementStrategy.cs" root0="FORCE_HIGHLIGHTING" />
@@ -82,20 +98,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.DocumentProcessingConsole.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.DocumentProcessingConsole.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="DocumentProcessingConsole" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -133,7 +150,7 @@
       <workItem from="1759428249815" duration="15137000" />
       <workItem from="1759517582357" duration="5180000" />
       <workItem from="1759597801000" duration="14526000" />
-      <workItem from="1759777442499" duration="92000" />
+      <workItem from="1759777442499" duration="1774000" />
     </task>
     <servers />
   </component>
