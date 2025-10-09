@@ -23,3 +23,10 @@
 /Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.pdb
 /Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.genruntimeconfig.cache
 /Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/obj/Debug/net9.0/ref/DocumentProcessingConsole.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Logging.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Logging.Abstractions.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Options.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.sourcelink.json

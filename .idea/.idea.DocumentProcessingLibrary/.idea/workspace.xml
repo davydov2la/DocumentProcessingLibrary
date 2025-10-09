@@ -8,9 +8,63 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4dbf4400-cd0c-49c0-a860-6681205b2041" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Logging/ResultAwareLogger.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DocumentProcessingLibrary/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DocumentProcessingLibrary/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingConsole.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingConsole.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingConsole.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingConsole.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingConsole.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingConsole.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingLibrary.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingLibrary.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingLibrary.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/bin/Debug/net9.0/DocumentProcessingLibrary.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/ref/DocumentProcessingConsole.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/ref/DocumentProcessingConsole.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/refint/DocumentProcessingConsole.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/Debug/net9.0/refint/DocumentProcessingConsole.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/DocumentProcessingConsole.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/DocumentProcessingConsole.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/DocumentProcessingConsole.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/DocumentProcessingConsole.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingConsole/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingConsole/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/DocumentProcessingLibrary.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/DocumentProcessingLibrary.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Factories/DocumentProcessorFactory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Factories/DocumentProcessorFactory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/Handlers/WordContentHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/Handlers/WordContentHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/Handlers/WordPropertiesHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/Handlers/WordPropertiesHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/Handlers/WordShapesHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/Handlers/WordShapesHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlContentHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlContentHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlHeadersFootersHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlHeadersFootersHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlPropertiesHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlPropertiesHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlShapesHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlShapesHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Utilities/TextRunHelper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Utilities/TextRunHelper.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/WordOpenXmlDocumentProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/WordOpenXmlDocumentProcessor.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/WordDocumentProcessor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/WordDocumentProcessor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Facade/DocumentAnonymizer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Facade/DocumentAnonymizer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Handlers/BaseDocumentElementHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Handlers/BaseDocumentElementHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Models/ProcessingConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Models/ProcessingConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Models/ProcessingResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Models/ProcessingResult.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/bin/Debug/net9.0/DocumentProcessingLibrary.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/bin/Debug/net9.0/DocumentProcessingLibrary.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/bin/Debug/net9.0/DocumentProcessingLibrary.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/bin/Debug/net9.0/DocumentProcessingLibrary.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/bin/Debug/net9.0/DocumentProcessingLibrary.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/bin/Debug/net9.0/DocumentProcessingLibrary.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/ref/DocumentProcessingLibrary.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/ref/DocumentProcessingLibrary.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/refint/DocumentProcessingLibrary.dll" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/Debug/net9.0/refint/DocumentProcessingLibrary.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/DocumentProcessingLibrary.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/DocumentProcessingLibrary.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/DocumentProcessingLibrary.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/DocumentProcessingLibrary.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/DocumentProcessingLibrary/obj/rider.project.restore.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,12 +127,14 @@
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlHeadersFootersHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlPropertiesHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Handlers/WordOpenXmlShapesHandler.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Utilities/DocumentCleanupUtility.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/Utilities/TextRunHelper.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/OpenXml/WordOpenXmlDocumentProcessor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Documents/Word/WordDocumentProcessor.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Facade/BatchProcessingResult.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Facade/DocumentAnonymizer.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Facade/FileProcessingResult.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Logging/ResultAwareLogger.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Handlers/BaseDocumentElementHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Interfaces/IDocumentElementHandler.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Models/ProcessingConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
@@ -86,6 +142,7 @@
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Models/ProcessingResult.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/DocumentProcessingLibrary/Processing/Models/TwoPassProcessingConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -150,13 +207,23 @@
       <workItem from="1759428249815" duration="15137000" />
       <workItem from="1759517582357" duration="5180000" />
       <workItem from="1759597801000" duration="14526000" />
-      <workItem from="1759777442499" duration="1774000" />
+      <workItem from="1759777442499" duration="36353000" />
     </task>
+    <task id="LOCAL-00001" summary="Working PreserveOriginal added">
+      <option name="closed" value="true" />
+      <created>1759779285813</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759779285813</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -171,6 +238,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Working PreserveOriginal added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working PreserveOriginal added" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

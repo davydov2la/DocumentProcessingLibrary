@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Microsoft.Extensions.Logging;
 using DocumentProcessingLibrary.Processing.Handlers;
 using DocumentProcessingLibrary.Processing.Models;
 using InteropWord = Microsoft.Office.Interop.Word;
@@ -11,6 +12,8 @@ namespace DocumentProcessingLibrary.Documents.Word.Handlers;
 public class WordContentHandler : BaseDocumentElementHandler<WordDocumentContext>
 {
     public override string HandlerName => "WordContent";
+    
+    public WordContentHandler(ILogger? logger = null) : base(logger) { }
 
     protected override ProcessingResult ProcessElement(WordDocumentContext context, ProcessingConfiguration config)
     {
@@ -18,15 +21,19 @@ public class WordContentHandler : BaseDocumentElementHandler<WordDocumentContext
         {
             var content = context.Document.Content;
             var text = content.Text;
+            
             var matches = FindAllMatches(text, config).ToList();
 
             if (!matches.Any())
                 return ProcessingResult.Successful(0, 0);
+            
+            Logger?.LogDebug("Найдено совпадений в содержимом: {Count}", matches.Count);
 
             foreach (var match in matches)
             {
                 var replacement = config.ReplacementStrategy.Replace(match);
                 var find = content.Find;
+                
                 try
                 {
                     find.Execute(
@@ -42,11 +49,11 @@ public class WordContentHandler : BaseDocumentElementHandler<WordDocumentContext
                 }
             }
 
-            return ProcessingResult.Successful(matches.Count, matches.Count);
+            return ProcessingResult.Successful(matches.Count, matches.Count, Logger, "Обработка содержимого завершена");
         }
         catch (Exception ex)
         {
-            return ProcessingResult.Failed($"Ошибка обработки содержимого: {ex.Message}");
+            return ProcessingResult.Failed($"Ошибка обработки содержимого: {ex.Message}", Logger, ex);
         }
     }
 }

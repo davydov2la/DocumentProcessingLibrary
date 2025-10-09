@@ -10,3 +10,4 @@
 /Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/refint/DocumentProcessingLibrary.dll
 /Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.pdb
 /Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/ref/DocumentProcessingLibrary.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingLibrary/obj/Debug/net9.0/DocumentProcessingLibrary.sourcelink.json

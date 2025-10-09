@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.9" />
       <PackageReference Include="Microsoft.Office.Interop.Word" Version="15.0.4797.1004" />
       <PackageReference Include="MicrosoftOfficeCore" Version="15.0.0" />
       <PackageReference Include="SolidWorks.Interop.sldworks" Version="32.1.0" />

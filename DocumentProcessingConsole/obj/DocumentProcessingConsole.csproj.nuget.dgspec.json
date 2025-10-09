@@ -111,6 +111,10 @@
               "target": "Package",
               "version": "[3.3.0, )"
             },
+            "Microsoft.Extensions.Logging": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
             "Microsoft.Office.Interop.Word": {
               "target": "Package",
               "version": "[15.0.4797.1004, )"

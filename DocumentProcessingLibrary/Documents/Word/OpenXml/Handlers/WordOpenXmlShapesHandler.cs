@@ -95,8 +95,11 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
                 {
                     var replacement = config.ReplacementStrategy.Replace(match);
                     
+                    var currentTextElements = paragraph.Descendants<Text>().ToList();
+                    var currentElementMap = TextRunHelper.MapTextElements(currentTextElements);
+                    
                     var result = TextRunHelper.ReplaceTextInRange(
-                        elementMap,
+                        currentElementMap,
                         match.StartIndex,
                         match.Length,
                         replacement );
@@ -118,33 +121,37 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
     /// </summary>
     private ProcessingResult ProcessDrawingMLElement(OpenXmlElement element, ProcessingConfiguration config)
     {
-        int found = 0;
-        int processed = 0;
+        var found = 0;
+        var processed = 0;
+
         try
         {
-            // В DrawingML текст хранится в A.Text элементах внутри A.TextBody
             var textElements = element.Descendants<A.Text>().ToList();
             
             if (!textElements.Any())
                 return ProcessingResult.Successful(0, 0);
-            // Собираем полный текст из всех A.Text
+
             var fullTextBuilder = new System.Text.StringBuilder();
             foreach (var text in textElements)
             {
                 if (!string.IsNullOrEmpty(text.Text))
                     fullTextBuilder.Append(text.Text);
             }
-            string fullText = fullTextBuilder.ToString();
+
+            var fullText = fullTextBuilder.ToString();
             
             if (string.IsNullOrEmpty(fullText))
                 return ProcessingResult.Successful(0, 0);
+
             var matches = FindAllMatches(fullText, config).ToList();
             
             if (!matches.Any())
                 return ProcessingResult.Successful(0, 0);
+
             found = matches.Count;
-            // Создаем карту A.Text элементов
+
             var elementMap = CreateDrawingTextMap(textElements);
+
             foreach (var match in matches.OrderByDescending(m => m.StartIndex))
             {
                 var replacement = config.ReplacementStrategy.Replace(match);
@@ -152,11 +159,11 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
                 if (ReplaceInDrawingText(elementMap, match.StartIndex, match.Length, replacement))
                     processed++;
             }
+
             return ProcessingResult.Successful(found, processed);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Ошибка обработки DrawingML: {ex.Message}");
             return ProcessingResult.Successful(found, processed);
         }
     }
@@ -166,16 +173,21 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
     private List<DrawingTextInfo> CreateDrawingTextMap(List<A.Text> textElements)
     {
         var map = new List<DrawingTextInfo>();
-        int position = 0;
+        var position = 0;
+
         foreach (var text in textElements)
         {
             var content = text.Text ?? string.Empty;
             map.Add(new DrawingTextInfo
             {
-                Element = text, StartIndex = position, Length = content.Length, Content = content
+                Element = text, 
+                StartIndex = position, 
+                Length = content.Length, 
+                Content = content
             });
             position += content.Length;
         }
+
         return map;
     }
     /// <summary>
@@ -183,22 +195,22 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
     /// </summary>
     private bool ReplaceInDrawingText(List<DrawingTextInfo> map, int startIndex, int length, string replacement)
     {
-        int endIndex = startIndex + length;
+        var endIndex = startIndex + length;
         var affected = map.Where(e => e.StartIndex < endIndex && (e.StartIndex + e.Length) > startIndex).ToList();
         
         if (!affected.Any())
             return false;
+
         try
         {
             if (affected.Count == 1)
             {
-                // Совпадение в одном элементе
                 var elem = affected[0];
-                int relStart = startIndex - elem.StartIndex;
+                var relStart = startIndex - elem.StartIndex;
                 
                 if (relStart < 0 || relStart + length > elem.Content.Length)
                     return false;
-                // ИСПРАВЛЕНО: A.Text не имеет Space, просто меняем текст
+
                 elem.Element.Text = elem.Content.Remove(relStart, length).Insert(relStart, replacement);
                 elem.Content = elem.Element.Text;
                 elem.Length = elem.Content.Length;
@@ -207,25 +219,29 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
             {
                 // Совпадение в нескольких элементах
                 var first = affected[0];
-                var last = affected[affected.Count - 1];
-                int cutStart = startIndex - first.StartIndex;
-                int cutEnd = (last.StartIndex + last.Length) - endIndex;
+                var last = affected[^1];
+                var cutStart = startIndex - first.StartIndex;
+                var cutEnd = (last.StartIndex + last.Length) - endIndex;
+
                 if (cutStart < 0 || cutStart > first.Content.Length)
                     return false;
                 if (cutEnd < 0 || cutEnd > last.Content.Length)
                     return false;
-                string before = first.Content.Substring(0, cutStart);
-                string after = last.Content.Substring(last.Content.Length - cutEnd);
-                // ИСПРАВЛЕНО: Убрано Space для A.Text
+
+                var before = first.Content[..cutStart];
+                var after = last.Content[^cutEnd..];
+
                 first.Element.Text = before + replacement;
                 first.Content = first.Element.Text;
                 first.Length = first.Content.Length;
-                for (int i = 1; i < affected.Count - 1; i++)
+
+                for (var i = 1; i < affected.Count - 1; i++)
                 {
                     affected[i].Element.Text = string.Empty;
                     affected[i].Content = string.Empty;
                     affected[i].Length = 0;
                 }
+
                 if (affected.Count > 1)
                 {
                     last.Element.Text = after;
@@ -233,9 +249,10 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
                     last.Length = after.Length;
                 }
             }
+
             return true;
         }
-        catch
+        catch (Exception ex)
         {
             return false;
         }

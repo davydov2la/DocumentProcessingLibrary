@@ -1,5 +1,6 @@
 using DocumentProcessingLibrary.Processing.Handlers;
 using DocumentProcessingLibrary.Processing.Models;
+using Microsoft.Extensions.Logging;
 
 namespace DocumentProcessingLibrary.Documents.Word.OpenXml.Handlers;
 
@@ -9,19 +10,25 @@ namespace DocumentProcessingLibrary.Documents.Word.OpenXml.Handlers;
 public class WordOpenXmlPropertiesHandler : BaseDocumentElementHandler<WordOpenXmlDocumentContext>
 {
     public override string HandlerName => "WordOpenXmlProperties";
+    
+    public WordOpenXmlPropertiesHandler(ILogger? logger = null) : base(logger) { }
+    
     protected override ProcessingResult ProcessElement(WordOpenXmlDocumentContext context, ProcessingConfiguration config)
     {
         if (!config.Options.ProcessProperties)
             return ProcessingResult.Successful(0, 0);
+        
         try
         {
             var totalMatches = 0;
             var processed = 0;
+            
             var coreProps = context.Document.PackageProperties;
             if (coreProps != null)
             {
                 try
                 {
+                    Logger?.LogDebug("Очистка встроенных свойств документа");
                     coreProps.Creator = "";
                     coreProps.Title = "";
                     coreProps.Subject = "";
@@ -31,12 +38,17 @@ public class WordOpenXmlPropertiesHandler : BaseDocumentElementHandler<WordOpenX
                     coreProps.Category = "";
                     processed += 7;
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    Logger?.LogWarning(ex, "Не удалось очистить встроенные свойства");
+                }
             }
+            
             var customProps = context.Document.CustomFilePropertiesPart;
-            if (customProps != null && customProps.Properties != null)
+            if (customProps != null)
             {
                 var properties = customProps.Properties.Elements<DocumentFormat.OpenXml.CustomProperties.CustomDocumentProperty>().ToList();
+                Logger?.LogDebug("Найдено пользовательских свойств: {Count}", properties.Count);
                 
                 foreach (var prop in properties)
                 {
@@ -50,30 +62,32 @@ public class WordOpenXmlPropertiesHandler : BaseDocumentElementHandler<WordOpenX
                             {
                                 totalMatches += matches.Count;
                                 var newValue = ReplaceText(propValue, matches, config.ReplacementStrategy);
-                                
+
                                 prop.RemoveAllChildren();
-                                
+
                                 if (!string.IsNullOrEmpty(newValue))
-                                {
                                     prop.AppendChild(new DocumentFormat.OpenXml.VariantTypes.VTLPWSTR(newValue));
-                                }
-                                
+
                                 processed += matches.Count;
+                                Logger?.LogDebug("Обработано совпадений в свойстве '{Name}': {Count}", prop.Name,
+                                    matches.Count);
                             }
                         }
                         else
-                        {
                             prop.RemoveAllChildren();
-                        }
                     }
-                    catch { }
+                    catch (Exception ex)
+                    {
+                        Logger?.LogWarning(ex, "Не удалось обработать свойство");
+                    }
                 }
             }
-            return ProcessingResult.Successful(totalMatches, processed);
+            
+            return ProcessingResult.Successful(totalMatches, processed, Logger, "Обработка свойств завершена");
         }
         catch (Exception ex)
         {
-            return ProcessingResult.Failed($"Ошибка обработки свойств: {ex.Message}");
+            return ProcessingResult.Failed($"Ошибка обработки свойств: {ex.Message}", Logger, ex);
         }
     }
 }

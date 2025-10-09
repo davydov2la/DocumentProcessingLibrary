@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using DocumentProcessingLibrary.Processing.Handlers;
 using DocumentProcessingLibrary.Processing.Models;
+using Microsoft.Extensions.Logging;
 using InteropWord =  Microsoft.Office.Interop.Word;
 
 namespace DocumentProcessingLibrary.Documents.Word.Handlers;
@@ -8,6 +9,8 @@ namespace DocumentProcessingLibrary.Documents.Word.Handlers;
 public class WordShapesHandler : BaseDocumentElementHandler<WordDocumentContext>
 {
     public override string HandlerName => "WordShapes";
+    
+    public WordShapesHandler(ILogger? logger = null) : base(logger) { }
 
     protected override ProcessingResult ProcessElement(WordDocumentContext context, ProcessingConfiguration config)
     {
@@ -19,6 +22,8 @@ public class WordShapesHandler : BaseDocumentElementHandler<WordDocumentContext>
 
         try
         {
+            Logger?.LogDebug("Найдено фигур: {Count}", context.Document.Shapes.Count);
+            
             foreach (InteropWord.Shape shape in context.Document.Shapes)
             {
                 try
@@ -35,6 +40,8 @@ public class WordShapesHandler : BaseDocumentElementHandler<WordDocumentContext>
                             shape.TextFrame.TextRange.Text = newText;
                             processed += matches.Count;
                         }
+                        
+                        Logger?.LogDebug("Обработано совпадений в фигуре: {Count}", matches.Count);
                     }
                 }
                 finally
@@ -43,11 +50,11 @@ public class WordShapesHandler : BaseDocumentElementHandler<WordDocumentContext>
                 }
             }
 
-            return ProcessingResult.Successful(totalMatches, processed);
+            return ProcessingResult.Successful(totalMatches, processed, Logger, "Обработка фигур завершена");
         }
         catch (Exception ex)
         {
-            return ProcessingResult.Failed($"Ошибка обработки фигур: {ex.Message}");
+            return ProcessingResult.Failed($"Ошибка обработки фигур: {ex.Message}", Logger, ex);
         }
     }
 }
