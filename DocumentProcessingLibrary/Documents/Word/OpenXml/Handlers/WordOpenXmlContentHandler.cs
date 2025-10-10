@@ -25,6 +25,8 @@ public class WordOpenXmlContentHandler : BaseDocumentElementHandler<WordOpenXmlD
             
             var totalMatches = 0;
             var processed = 0;
+            var paragraphErrors = 0;
+            var tableErrors = 0;
             
             var paragraphs = body.Descendants<Paragraph>().ToList();
             Logger?.LogDebug("Найдено параграфов: {Count}", paragraphs.Count);
@@ -34,6 +36,9 @@ public class WordOpenXmlContentHandler : BaseDocumentElementHandler<WordOpenXmlD
                 var result = ProcessParagraph(paragraph, config);
                 totalMatches += result.MatchesFound;
                 processed += result.MatchesProcessed;
+
+                if (!result.Success)
+                    paragraphErrors++;
             }
             
             var tables = body.Descendants<Table>().ToList();
@@ -44,9 +49,20 @@ public class WordOpenXmlContentHandler : BaseDocumentElementHandler<WordOpenXmlD
                 var result = ProcessTable(table, config);
                 totalMatches += result.MatchesFound;
                 processed += result.MatchesProcessed;
+                
+                if (!result.Success)
+                    tableErrors++;
             }
             
-            return ProcessingResult.Successful(totalMatches, processed, Logger, "Обработка содержимого завершена");
+            var finalResult = ProcessingResult.Successful(totalMatches, processed, Logger, "Обработка содержимого завершена");
+            
+            if (paragraphErrors > 0)
+                finalResult.AddWarning($"Не удалось обработать {paragraphErrors} параграфов", Logger);
+            
+            if (tableErrors > 0)
+                finalResult.AddWarning($"Не удалось обработать {tableErrors} таблиц", Logger);
+            
+            return finalResult;
         }
         catch (Exception ex)
         {
@@ -59,56 +75,12 @@ public class WordOpenXmlContentHandler : BaseDocumentElementHandler<WordOpenXmlD
     /// </summary>
     private ProcessingResult ProcessParagraph(Paragraph paragraph, ProcessingConfiguration config)
     {
-        var found = 0;
-        var processed = 0;
-        
-        try
-        {
-            var textElements = paragraph.Descendants<Text>().ToList();
-            
-            if (!textElements.Any())
-                return ProcessingResult.Successful(0, 0);
-            
-            var fullText = TextRunHelper.CollectText(textElements);
-            
-            if (string.IsNullOrEmpty(fullText))
-                return ProcessingResult.Successful(0, 0);
-            
-            var matches = FindAllMatches(fullText, config).ToList();
-            
-            if (!matches.Any())
-                return ProcessingResult.Successful(0, 0);
-            
-            found = matches.Count;
-            Logger?.LogDebug("В параграфе найдено совпадений: {Count}", found);
-            
-            foreach (var match in matches.OrderByDescending(m => m.StartIndex))
-            {
-                var replacement = config.ReplacementStrategy.Replace(match);
-                
-                var currentTextElements = paragraph.Descendants<Text>().ToList();
-                var currentElementMap = TextRunHelper.MapTextElements(currentTextElements);
-                
-                var result = TextRunHelper.ReplaceTextInRange(
-                    currentElementMap,
-                    match.StartIndex,
-                    match.Length,
-                    replacement );
-                
-                if (result.Success)
-                    processed++;
-                else
-                    Logger?.LogWarning("Не удалось заменить текст в позиции {Position}: {Error}",
-                        match.StartIndex, result.ErrorMessage);
-            }
-            
-            return ProcessingResult.Successful(found, processed);
-        }
-        catch (Exception ex)
-        {
-            Logger?.LogError(ex, "Ошибка обработки параграфа");
-            return ProcessingResult.Successful(found, processed);
-        }
+        return ParagraphProcessor.ProcessParagraphWithReplacement(
+            paragraph, 
+            config, 
+            FindAllMatches, 
+            ReplaceText, 
+            Logger);
     }
     
     /// <summary>
@@ -140,7 +112,8 @@ public class WordOpenXmlContentHandler : BaseDocumentElementHandler<WordOpenXmlD
         catch (Exception ex)
         {
             Logger?.LogError(ex, "Ошибка обработки таблицы");
-            return ProcessingResult.Successful(found, processed);
+            return ProcessingResult.PartialSuccess(found, processed,
+                $"Ошибка обработки таблицы: {ex.Message}", Logger);
         }
     }
 }

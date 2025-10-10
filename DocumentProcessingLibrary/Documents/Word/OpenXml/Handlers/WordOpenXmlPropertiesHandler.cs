@@ -22,6 +22,7 @@ public class WordOpenXmlPropertiesHandler : BaseDocumentElementHandler<WordOpenX
         {
             var totalMatches = 0;
             var processed = 0;
+            var propErrors = 0;
             
             var coreProps = context.Document.PackageProperties;
             if (coreProps != null)
@@ -41,6 +42,7 @@ public class WordOpenXmlPropertiesHandler : BaseDocumentElementHandler<WordOpenX
                 catch (Exception ex)
                 {
                     Logger?.LogWarning(ex, "Не удалось очистить встроенные свойства");
+                    propErrors++;
                 }
             }
             
@@ -79,11 +81,17 @@ public class WordOpenXmlPropertiesHandler : BaseDocumentElementHandler<WordOpenX
                     catch (Exception ex)
                     {
                         Logger?.LogWarning(ex, "Не удалось обработать свойство");
+                        propErrors++;
                     }
                 }
             }
             
-            return ProcessingResult.Successful(totalMatches, processed, Logger, "Обработка свойств завершена");
+            var finalResult = ProcessingResult.Successful(totalMatches, processed, Logger, "Обработка свойств завершена");
+            
+            if (propErrors > 0)
+                finalResult.AddWarning($"Не удалось обработать {propErrors} свойств", Logger);
+            
+            return finalResult;
         }
         catch (Exception ex)
         {

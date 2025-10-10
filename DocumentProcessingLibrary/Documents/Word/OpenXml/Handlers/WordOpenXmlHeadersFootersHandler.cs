@@ -29,6 +29,8 @@ public class WordOpenXmlHeadersFootersHandler : BaseDocumentElementHandler<WordO
             
             var totalMatches = 0;
             var processed = 0;
+            var headerErrors = 0;
+            var footerErrors = 0;
             
             if (config.Options.ProcessHeaders)
             {
@@ -38,6 +40,9 @@ public class WordOpenXmlHeadersFootersHandler : BaseDocumentElementHandler<WordO
                     var result = ProcessHeaderPart(headerPart, config);
                     totalMatches += result.MatchesFound;
                     processed += result.MatchesProcessed;
+                    
+                    if (!result.Success)
+                        headerErrors++;
                 }
             }
             
@@ -49,10 +54,21 @@ public class WordOpenXmlHeadersFootersHandler : BaseDocumentElementHandler<WordO
                     var result = ProcessFooterPart(footerPart, config);
                     totalMatches += result.MatchesFound;
                     processed += result.MatchesProcessed;
+                    
+                    if (!result.Success)
+                        footerErrors++;
                 }
             }
             
-            return ProcessingResult.Successful(totalMatches, processed, Logger, "Обработка колонтитулов завершена");
+            var finalResult = ProcessingResult.Successful(totalMatches, processed, Logger, "Обработка колонтитулов завершена");
+
+            if (headerErrors > 0)
+                finalResult.AddWarning($"Не удалось обработать {headerErrors} верхних колонтитулов", Logger);
+            
+            if (footerErrors > 0)
+                finalResult.AddWarning($"Не удалось обработать {footerErrors} нижних колонтитулов", Logger);
+            
+            return finalResult;
         }
         catch (Exception ex)
         {
@@ -81,7 +97,8 @@ public class WordOpenXmlHeadersFootersHandler : BaseDocumentElementHandler<WordO
         catch (Exception ex)
         {
             Logger?.LogError(ex, "Ошибка обработки верхнего колонтитула");
-            return ProcessingResult.Successful(found, processed);
+            return ProcessingResult.PartialSuccess(found, processed,
+                $"Ошибка обработки верхнего колонтитула: {ex.Message}", Logger);
         }
     }
     
@@ -106,59 +123,18 @@ public class WordOpenXmlHeadersFootersHandler : BaseDocumentElementHandler<WordO
         catch (Exception ex)
         {
             Logger?.LogError(ex, "Ошибка обработки нижнего колонтитула");
-            return ProcessingResult.Successful(found, processed);
+            return ProcessingResult.PartialSuccess(found, processed,
+                $"Ошибка обработки нижнего колонтитула: {ex.Message}", Logger);
         }
     }
     
     private ProcessingResult ProcessParagraph(Paragraph paragraph, ProcessingConfiguration config)
     {
-        var found = 0;
-        var processed = 0;
-        
-        try
-        {
-            var textElements = paragraph.Descendants<Text>().ToList();
-            
-            if (!textElements.Any())
-                return ProcessingResult.Successful(0, 0);
-            
-            var fullText = TextRunHelper.CollectText(textElements);
-            
-            if (string.IsNullOrEmpty(fullText))
-                return ProcessingResult.Successful(0, 0);
-            
-            var matches = FindAllMatches(fullText, config).ToList();
-            
-            if (!matches.Any())
-                return ProcessingResult.Successful(0, 0);
-            
-            found = matches.Count;
-            
-            foreach (var match in matches.OrderByDescending(m => m.StartIndex))
-            {
-                var replacement = config.ReplacementStrategy.Replace(match);
-                
-                var currentTextElements = paragraph.Descendants<Text>().ToList();
-                var currentElementMap = TextRunHelper.MapTextElements(currentTextElements);
-                
-                var result = TextRunHelper.ReplaceTextInRange(
-                    currentElementMap,
-                    match.StartIndex,
-                    match.Length,
-                    replacement );
-                if (result.Success)
-                    processed++;
-                else
-                    Logger?.LogWarning("Не удалось заменить текст в колонтитуле на позиции {Position}: {Error}",
-                        match.StartIndex, result.ErrorMessage);
-            }
-            
-            return ProcessingResult.Successful(found, processed);
-        }
-        catch (Exception ex)
-        {
-            Logger?.LogError(ex, "Ошибка обработки параграфа в колонтитуле");
-            return ProcessingResult.Successful(found, processed);
-        }
+        return ParagraphProcessor.ProcessParagraphWithReplacement(
+            paragraph,
+            config,
+            FindAllMatches,
+            ReplaceText,
+            Logger);
     }
 }

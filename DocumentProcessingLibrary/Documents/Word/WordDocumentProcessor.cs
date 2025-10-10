@@ -9,8 +9,22 @@ using InteropWord = Microsoft.Office.Interop.Word;
 namespace DocumentProcessingLibrary.Documents.Word;
 
 /// <summary>
-/// Процессор для обработки Word документов
+/// Реализация процессора документов Word, обеспечивающая анонимизацию и
+/// удаление конфиденциальных данных из файлов форматов DOCX, DOCM.
 /// </summary>
+/// <remarks>
+/// Использует OpenXML SDK для работы с документами Word без применения технологии COM.
+/// </remarks>
+/// <example>
+/// <code>
+/// var processor = new WordDocumentProcessor(visible, logger);
+/// var result = processor.Process(processingRequest);
+/// if (result.Success)
+/// {
+///     Console.WriteLine($"Обработано: {result.ReplacedCount}");
+/// }
+/// </code>
+/// </example>
 public class WordDocumentProcessor : ITwoPassDocumentProcessor
 {
     private InteropWord.Application? _wordApp;

@@ -6,7 +6,6 @@ namespace DocumentProcessingLibrary.Documents.Word.OpenXml.Utilities;
 
 /// <summary>
 /// Вспомогательный класс для работы с текстовыми элементами в OpenXML
-/// ИСПРАВЛЕНО: правильное удаление пустых Run элементов
 /// </summary>
 public class TextRunHelper
 {
@@ -32,12 +31,9 @@ public class TextRunHelper
     {
         var sb = new StringBuilder();
         foreach (var text in textElements)
-        {
             if (!string.IsNullOrEmpty(text.Text))
-            {
                 sb.Append(text.Text);
-            }
-        }
+        
         return sb.ToString();
     }
 
@@ -47,7 +43,7 @@ public class TextRunHelper
     public static List<TextElementInfo> MapTextElements(IEnumerable<Text> textElements)
     {
         var map = new List<TextElementInfo>();
-        int currentPosition = 0;
+        var currentPosition = 0;
 
         foreach (var text in textElements)
         {
@@ -69,7 +65,6 @@ public class TextRunHelper
 
     /// <summary>
     /// Заменяет текст в указанном диапазоне
-    /// ИСПРАВЛЕНО: корректное удаление пустых Run элементов
     /// </summary>
     public static ReplacementResult ReplaceTextInRange(
         List<TextElementInfo> elementMap,
@@ -106,7 +101,6 @@ public class TextRunHelper
 
             if (affectedElements.Count == 1)
             {
-                // Простой случай: замена в одном элементе
                 var element = affectedElements[0];
                 var relativeStart = startIndex - element.StartIndex;
                 
@@ -122,11 +116,8 @@ public class TextRunHelper
                 var newText = element.Content.Remove(relativeStart, length)
                     .Insert(relativeStart, replacement);
                 
-                // ИСПРАВЛЕНИЕ: Если текст стал пустым, удаляем весь Run
                 if (string.IsNullOrEmpty(newText))
-                {
                     RemoveEmptyRun(element.TextElement);
-                }
                 else
                 {
                     element.TextElement.Space = SpaceProcessingModeValues.Preserve;
@@ -139,7 +130,6 @@ public class TextRunHelper
             }
             else
             {
-                // Сложный случай: замена через несколько элементов
                 var firstElement = affectedElements[0];
                 var lastElement = affectedElements[^1];
 
@@ -167,10 +157,8 @@ public class TextRunHelper
                 var textBefore = firstElement.Content[..firstElementCutStart];
                 var textAfter = lastElement.Content[^lastElementCutEnd..];
 
-                // Устанавливаем текст в первый элемент
                 var firstElementNewText = textBefore + replacement;
                 
-                // ИСПРАВЛЕНИЕ: Если первый элемент стал пустым, удаляем его Run
                 if (string.IsNullOrEmpty(firstElementNewText))
                 {
                     RemoveEmptyRun(firstElement.TextElement);
@@ -185,7 +173,6 @@ public class TextRunHelper
                 firstElement.Length = firstElementNewText.Length;
                 elementsModified++;
 
-                // ИСПРАВЛЕНИЕ: Удаляем средние элементы полностью (вместе с Run)
                 for (var i = 1; i < affectedElements.Count - 1; i++)
                 {
                     RemoveEmptyRun(affectedElements[i].TextElement);
@@ -194,14 +181,10 @@ public class TextRunHelper
                     elementsModified++;
                 }
 
-                // Последний элемент
                 if (affectedElements.Count > 1)
                 {
-                    // ИСПРАВЛЕНИЕ: Если последний элемент стал пустым, удаляем его Run
                     if (string.IsNullOrEmpty(textAfter))
-                    {
                         RemoveEmptyRun(lastElement.TextElement);
-                    }
                     else
                     {
                         lastElement.TextElement.Space = SpaceProcessingModeValues.Preserve;
@@ -237,23 +220,15 @@ public class TextRunHelper
     {
         try
         {
-            // Находим родительский Run элемент
             var run = textElement.Ancestors<Run>().FirstOrDefault();
             
             if (run != null)
-            {
-                // ВАЖНО: Удаляем весь Run, а не только Text
                 run.Remove();
-            }
             else
-            {
-                // Если Run не найден, удаляем хотя бы сам Text элемент
                 textElement.Remove();
-            }
         }
         catch
         {
-            // В крайнем случае просто очищаем текст
             textElement.Text = string.Empty;
         }
     }

@@ -2,6 +2,7 @@ using System.Runtime.InteropServices;
 using DocumentProcessingLibrary.Documents.Interfaces;
 using DocumentProcessingLibrary.Documents.SolidWorks.Handlers;
 using DocumentProcessingLibrary.Processing.Models;
+using Microsoft.Extensions.Logging;
 using SolidWorks.Interop.sldworks;
 using SolidWorks.Interop.swconst;
 
@@ -14,16 +15,21 @@ namespace DocumentProcessingLibrary.Documents.SolidWorks;
 public class SolidWorksDocumentProcessor : IDocumentProcessor
 {
     private SldWorks? _swApp;
+    private readonly ILogger? _logger;
     private bool _disposed;
+    
     public string ProcessorName => "SolidWorksDocumentProcessor";
     public IEnumerable<string> SupportedExtensions => new[] { ".slddrw", ".sldprt", ".sldasm" };
-    public SolidWorksDocumentProcessor(bool visible = false)
+    
+    public SolidWorksDocumentProcessor(bool visible = false, ILogger? logger = null)
     {
         _swApp = Activator.CreateInstance(Type.GetTypeFromProgID("SldWorks.Application")) as SldWorks;
         if (_swApp == null)
             throw new InvalidOperationException("Не удалось создать экземпляр SolidWorks");
         _swApp.Visible = visible;
+        _logger = logger;
     }
+    
     public bool CanProcess(string filePath)
     {
         if (string.IsNullOrEmpty(filePath))
@@ -31,16 +37,21 @@ public class SolidWorksDocumentProcessor : IDocumentProcessor
         var extension = Path.GetExtension(filePath)?.ToLowerInvariant();
         return extension is ".slddrw" or ".sldprt" or ".sldasm";
     }
+    
     public ProcessingResult Process(DocumentProcessingRequest request)
     {
         if (request == null)
             throw new ArgumentNullException(nameof(request));
         if (_swApp == null)
-            return ProcessingResult.Failed("SolidWorks Application не инициализирован");
+            return ProcessingResult.Failed("SolidWorks Application не инициализирован", _logger);
         if (!File.Exists(request.InputFilePath))
-            return ProcessingResult.Failed($"Файл не найден: {request.InputFilePath}");
+            return ProcessingResult.Failed($"Файл не найден: {request.InputFilePath}", _logger);
         if (!CanProcess(request.InputFilePath))
-            return ProcessingResult.Failed($"Неподдерживаемый формат файла: {request.InputFilePath}");
+            return ProcessingResult.Failed($"Неподдерживаемый формат файла: {request.InputFilePath}", _logger);
+        
+        var logger = request.Configuration.Logger ?? _logger;
+        logger?.LogInformation("Начало обработки документа: {FilePath}", request.InputFilePath);
+        
         var extension = Path.GetExtension(request.InputFilePath).ToLowerInvariant();
         return extension == ".slddrw"
             ? ProcessDrawing(request)

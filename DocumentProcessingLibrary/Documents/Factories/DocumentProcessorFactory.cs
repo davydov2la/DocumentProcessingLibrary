@@ -91,7 +91,7 @@ public class DocumentProcessorFactory : IDisposable
         if (string.IsNullOrEmpty(filePath))
             return false;
         
-        var extension = System.IO.Path.GetExtension(filePath)?.ToLowerInvariant();
+        var extension = Path.GetExtension(filePath)?.ToLowerInvariant();
         return GetSupportedExtensions().Contains(extension);
     }
     
@@ -104,6 +104,7 @@ public class DocumentProcessorFactory : IDisposable
         processor.Dispose();
         return null;
     }
+    
     private IDocumentProcessor? TryCreateWordInteropProcessor(string filePath)
     {
         try
@@ -121,6 +122,7 @@ public class DocumentProcessorFactory : IDisposable
             return null;
         }
     }
+    
     private IDocumentProcessor? TryCreateSolidWorksProcessor(string filePath)
     {
         try
@@ -138,11 +140,13 @@ public class DocumentProcessorFactory : IDisposable
             return null;
         }
     }
+    
     public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
     }
+    
     protected virtual void Dispose(bool disposing)
     {
         if (_disposed)

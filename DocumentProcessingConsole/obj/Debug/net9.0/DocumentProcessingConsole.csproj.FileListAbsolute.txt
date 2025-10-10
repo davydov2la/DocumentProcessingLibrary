@@ -30,3 +30,9 @@
 /Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Options.dll
 /Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Primitives.dll
 /Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/obj/Debug/net9.0/DocumentProcessingConsole.sourcelink.json
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Configuration.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Configuration.Abstractions.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Configuration.Binder.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Logging.Configuration.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Logging.Console.dll
+/Users/paveldavydov/RiderProjects/DocumentProcessingLibrary/DocumentProcessingConsole/bin/Debug/net9.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll

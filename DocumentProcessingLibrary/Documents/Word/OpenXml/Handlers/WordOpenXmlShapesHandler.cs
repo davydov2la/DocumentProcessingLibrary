@@ -3,122 +3,144 @@ using DocumentProcessingLibrary.Processing.Handlers;
 using DocumentProcessingLibrary.Processing.Models;
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.Extensions.Logging;
 using A = DocumentFormat.OpenXml.Drawing;
 using Wp = DocumentFormat.OpenXml.Drawing.Wordprocessing;
 
 namespace DocumentProcessingLibrary.Documents.Word.OpenXml.Handlers;
 
-/// <summary>
-/// Обработчик текстовых блоков (Shapes) в Word документе через OpenXML
-/// 100% идентично Interop: обрабатывает все doc.Shapes
-/// </summary>
 public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDocumentContext>
 {
     public override string HandlerName => "WordOpenXmlShapes";
+
+    public WordOpenXmlShapesHandler(ILogger? logger = null) : base(logger) { }
+
     protected override ProcessingResult ProcessElement(WordOpenXmlDocumentContext context, ProcessingConfiguration config)
     {
         if (!config.Options.ProcessTextBoxes)
             return ProcessingResult.Successful(0, 0);
+
         try
         {
             var body = context.Document.MainDocumentPart?.Document?.Body;
             if (body == null)
-                return ProcessingResult.Failed("Не удалось получить тело документа");
-            int totalMatches = 0;
-            int processed = 0;
-            // === ЧАСТЬ 1: VML SHAPES (старый формат) ===
-            // Эквивалент: foreach (Word.Shape shape in doc.Shapes) где shape - VML
+                return ProcessingResult.Failed("Не удалось получить тело документа", Logger);
+
+            var totalMatches = 0;
+            var processed = 0;
+            var shapeErrors = 0;
+
             var vmlShapes = body.Descendants<DocumentFormat.OpenXml.Vml.Shape>().ToList();
-            
+            Logger?.LogDebug("Найдено VML Shapes: {Count}", vmlShapes.Count);
+
             foreach (var shape in vmlShapes)
             {
                 var result = ProcessVmlShape(shape, config);
                 totalMatches += result.MatchesFound;
                 processed += result.MatchesProcessed;
+
+                if (!result.Success)
+                    shapeErrors++;
             }
-            // === ЧАСТЬ 2: DRAWINGML SHAPES (новый формат) ===
-            // Эквивалент: foreach (Word.Shape shape in doc.Shapes) где shape - DrawingML
-            
-            // 2.1 Inline shapes (в тексте)
+
             var inlineShapes = body.Descendants<Wp.Inline>().ToList();
+            Logger?.LogDebug("Найдено Inline Shapes: {Count}", inlineShapes.Count);
+
             foreach (var inline in inlineShapes)
             {
                 var result = ProcessDrawingMLElement(inline, config);
                 totalMatches += result.MatchesFound;
                 processed += result.MatchesProcessed;
+
+                if (!result.Success)
+                    shapeErrors++;
             }
-            // 2.2 Anchor shapes (плавающие)
+
             var anchorShapes = body.Descendants<Wp.Anchor>().ToList();
+            Logger?.LogDebug("Найдено Anchor Shapes: {Count}", anchorShapes.Count);
+
             foreach (var anchor in anchorShapes)
             {
                 var result = ProcessDrawingMLElement(anchor, config);
                 totalMatches += result.MatchesFound;
                 processed += result.MatchesProcessed;
+
+                if (!result.Success)
+                    shapeErrors++;
             }
-            return ProcessingResult.Successful(totalMatches, processed);
+
+            var finalResult = ProcessingResult.Successful(totalMatches, processed, Logger, "Обработка фигур завершена");
+
+            if (shapeErrors > 0)
+                finalResult.AddWarning($"Не удалось обработать {shapeErrors} фигур", Logger);
+
+            return finalResult;
         }
         catch (Exception ex)
         {
-            return ProcessingResult.Failed($"Ошибка обработки фигур: {ex.Message}");
+            return ProcessingResult.Failed($"Критическая ошибка обработки фигур: {ex.Message}", Logger, ex);
         }
     }
-    /// <summary>
-    /// Обрабатывает VML Shape
-    /// Эквивалент: shape.TextFrame.TextRange.Text (для VML)
-    /// </summary>
+
     private ProcessingResult ProcessVmlShape(DocumentFormat.OpenXml.Vml.Shape shape, ProcessingConfiguration config)
     {
-        int found = 0;
-        int processed = 0;
+        var found = 0;
+        var processed = 0;
+
         try
         {
-            // В VML shape текст в обычных Word параграфах
             var paragraphs = shape.Descendants<Paragraph>().ToList();
-            
+
             foreach (var paragraph in paragraphs)
             {
                 var textElements = paragraph.Descendants<Text>().ToList();
-                
+
                 if (!textElements.Any())
                     continue;
+
                 string fullText = TextRunHelper.CollectText(textElements);
-                
+
                 if (string.IsNullOrEmpty(fullText))
                     continue;
+
                 var matches = FindAllMatches(fullText, config).ToList();
-                
+
                 if (!matches.Any())
                     continue;
+
                 found += matches.Count;
-                var elementMap = TextRunHelper.MapTextElements(textElements);
+
                 foreach (var match in matches.OrderByDescending(m => m.StartIndex))
                 {
                     var replacement = config.ReplacementStrategy.Replace(match);
-                    
+
                     var currentTextElements = paragraph.Descendants<Text>().ToList();
                     var currentElementMap = TextRunHelper.MapTextElements(currentTextElements);
-                    
+
                     var result = TextRunHelper.ReplaceTextInRange(
                         currentElementMap,
                         match.StartIndex,
                         match.Length,
-                        replacement );
+                        replacement);
+
                     if (result.Success)
                         processed++;
+                    else
+                        Logger?.LogWarning("Не удалось заменить текст в VML Shape на позиции {Position}: {Error}",
+                            match.StartIndex, result.ErrorMessage);
                 }
             }
+
             return ProcessingResult.Successful(found, processed);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Ошибка обработки VML Shape: {ex.Message}");
-            return ProcessingResult.Successful(found, processed);
+            Logger?.LogError(ex, "Ошибка обработки VML Shape");
+            return ProcessingResult.PartialSuccess(found, processed,
+                $"Ошибка обработки VML Shape: {ex.Message}", Logger);
         }
     }
-    /// <summary>
-    /// Обрабатывает DrawingML элемент (Inline или Anchor)
-    /// Эквивалент: shape.TextFrame.TextRange.Text (для DrawingML)
-    /// </summary>
+
     private ProcessingResult ProcessDrawingMLElement(OpenXmlElement element, ProcessingConfiguration config)
     {
         var found = 0;
@@ -127,7 +149,7 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
         try
         {
             var textElements = element.Descendants<A.Text>().ToList();
-            
+
             if (!textElements.Any())
                 return ProcessingResult.Successful(0, 0);
 
@@ -139,12 +161,12 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
             }
 
             var fullText = fullTextBuilder.ToString();
-            
+
             if (string.IsNullOrEmpty(fullText))
                 return ProcessingResult.Successful(0, 0);
 
             var matches = FindAllMatches(fullText, config).ToList();
-            
+
             if (!matches.Any())
                 return ProcessingResult.Successful(0, 0);
 
@@ -155,21 +177,24 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
             foreach (var match in matches.OrderByDescending(m => m.StartIndex))
             {
                 var replacement = config.ReplacementStrategy.Replace(match);
-                
+
                 if (ReplaceInDrawingText(elementMap, match.StartIndex, match.Length, replacement))
                     processed++;
+                else
+                    Logger?.LogWarning("Не удалось заменить текст в DrawingML на позиции {Position}",
+                        match.StartIndex);
             }
 
             return ProcessingResult.Successful(found, processed);
         }
         catch (Exception ex)
         {
-            return ProcessingResult.Successful(found, processed);
+            Logger?.LogError(ex, "Ошибка обработки DrawingML");
+            return ProcessingResult.PartialSuccess(found, processed,
+                $"Ошибка обработки DrawingML: {ex.Message}", Logger);
         }
     }
-    /// <summary>
-    /// Создает карту A.Text элементов с позициями
-    /// </summary>
+
     private List<DrawingTextInfo> CreateDrawingTextMap(List<A.Text> textElements)
     {
         var map = new List<DrawingTextInfo>();
@@ -180,9 +205,9 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
             var content = text.Text ?? string.Empty;
             map.Add(new DrawingTextInfo
             {
-                Element = text, 
-                StartIndex = position, 
-                Length = content.Length, 
+                Element = text,
+                StartIndex = position,
+                Length = content.Length,
                 Content = content
             });
             position += content.Length;
@@ -190,14 +215,12 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
 
         return map;
     }
-    /// <summary>
-    /// Заменяет текст в A.Text элементах
-    /// </summary>
+
     private bool ReplaceInDrawingText(List<DrawingTextInfo> map, int startIndex, int length, string replacement)
     {
         var endIndex = startIndex + length;
         var affected = map.Where(e => e.StartIndex < endIndex && (e.StartIndex + e.Length) > startIndex).ToList();
-        
+
         if (!affected.Any())
             return false;
 
@@ -207,7 +230,7 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
             {
                 var elem = affected[0];
                 var relStart = startIndex - elem.StartIndex;
-                
+
                 if (relStart < 0 || relStart + length > elem.Content.Length)
                     return false;
 
@@ -217,7 +240,6 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
             }
             else
             {
-                // Совпадение в нескольких элементах
                 var first = affected[0];
                 var last = affected[^1];
                 var cutStart = startIndex - first.StartIndex;
@@ -254,12 +276,11 @@ public class WordOpenXmlShapesHandler : BaseDocumentElementHandler<WordOpenXmlDo
         }
         catch (Exception ex)
         {
+            Logger?.LogError(ex, "Ошибка замены текста в DrawingML");
             return false;
         }
     }
-    /// <summary>
-    /// Информация о A.Text элементе
-    /// </summary>
+
     private class DrawingTextInfo
     {
         public A.Text Element { get; set; } = null!;
